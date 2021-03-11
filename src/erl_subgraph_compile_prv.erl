@@ -157,7 +157,8 @@ resolve_file(State) ->
 %% the way to separate that potential future code from the current
 %% stuff.
 fetch_dag(State) ->
-    CritMeta = [], % gonna have to keep this in sync with rebar_prv_compile
+    {ok, CompileVsn} = application:get_key(compiler, vsn),
+    CritMeta = [{compiler, CompileVsn}], % gonna have to keep this in sync with rebar_prv_compile
     rebar_compiler_dag:init(
         rebar_dir:deps_dir(State),
         ?COMPILER,
@@ -490,4 +491,3 @@ report(Messages) ->
 
 default_ctx() ->
     #{dependencies_opts => []}.
-
